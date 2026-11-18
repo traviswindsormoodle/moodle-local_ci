@@ -102,8 +102,8 @@ lastintegrationdatequoted=\'${lastintegrationdate}\'
 ${basereq} --action getIssueList \
            --jql "project = 'Moodle' \
                AND status WAS IN ( \
-                   'Integration review in progress', \
-                   'Waiting for feedback', \
+                   'Merge review in progress', \
+                   'Waiting for Feedback (Merge Review)', \
                    'Problem during testing') AFTER ${lastintegrationdatequoted} \
                AND status CHANGED TO 'Reopened' AFTER ${lastintegrationdatequoted}" \
            --file "${tempfile}"

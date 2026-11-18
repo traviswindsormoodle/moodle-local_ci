@@ -44,7 +44,7 @@ ${basereq} --action getIssueList \
            --jql "project = 'Moodle' \
                  AND labels IN ('ci') \
                  AND labels NOT IN (integration_held, security_held) \
-                 AND status = 'Waiting for integration review' \
+                 AND status = 'Waiting for Merge Review' \
                  AND 'Currently in integration' IS EMPTY \
                  AND status CHANGED AFTER '-60m' " \
            --file "${resultfile}"

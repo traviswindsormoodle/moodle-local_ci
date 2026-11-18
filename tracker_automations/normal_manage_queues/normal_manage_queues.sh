@@ -16,10 +16,10 @@
 
 # The criteria to consider an issue "important" are:
 #  1) It must be in the candidates queue, awaiting for integration.       |
-#  2) It must not have the integration_held or security_held labels.      | => filter=14000
-#  3) It must not have the "agreed_to_be_after_release" text in a comment.| => NOT filter = 21366
+#  2) It must not have the integration_held or security_held labels.      | => filter_candidatesForMerge
+#  3) It must not have the "agreed_to_be_after_release" text in a comment.| => filter_issuesHeldUntilAfterRelease
 #  4) At least one of this is true:
-#    a) The issue has a must-fix version.                                 | => filter = 21363
+#    a) The issue has a must-fix version.                                 | => filter_mustFixIssues
 #    b) The issue has the mdlqa label.                                    | => labels IN (mdlqa)
 #    c) The issue priority is critical or higher.                         | => priority IN (Critical, Blocker)
 #    d) The issue is flagged as security issue.                           | => level IS NOT EMPTY

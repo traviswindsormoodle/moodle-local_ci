@@ -53,7 +53,7 @@ fi
 
 # Let's search all the issues under candidates queue.
 ${basereq} --action getIssueList \
-           --jql "filter = '${filter_candidatesForIntegration}'" \
+           --jql "filter = '${filter_candidatesForMerge}'" \
            --file "${resultfile}"
 
 # Iterate over found issues and perform the actions with them

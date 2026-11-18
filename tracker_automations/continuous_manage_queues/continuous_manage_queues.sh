@@ -20,10 +20,10 @@
 #
 # The criteria to consider an issue "important" are:
 #  1) It must be in the candidates queue, awaiting for integration.        |
-#  2) It must not have the integration_held or security_held labels.      | => filter=14000
-#  3) It must not have the "agreed_to_be_after_release" text in a comment.| => NOT filter = 21366
+#  2) It must not have the integration_held or security_held labels.      | => filter=filter_candidatesForMerge
+#  3) It must not have the "agreed_to_be_after_release" text in a comment.| => NOT filter=filter_issuesHeldUntilAfterRelease
 #  4) At least one of this is true:
-#    a) The issue has a must-fix version.                                 | => filter = 21363
+#    a) The issue has a must-fix version.                                 | => filter=filter_mustFixIssues
 #    b) The issue has the mdlqa label.                                    | => labels IN (mdlqa)
 #
 # This job must be enabled only since freeze day to the end of on-sync period, when normal weeklies begin.

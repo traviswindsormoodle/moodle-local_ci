@@ -24,17 +24,15 @@ function run_A1() {
     # Note this could be done by one unique "runFromIssueList" action, but we are splitting
     # the search and the update in order to log all the closed issues within jenkins ($logfile)
 
-    # Basically get all the issues in the candidates queues (filter=14000), that are not bug
-    # and that haven't received any comment with the standard unholding text (NOT filter = 22054)
+    # Basically get all the issues in the candidates queues (filter=filter_candidatesForMerge), that are not bug
+    # and that haven't received any comment with the standard unholding text (NOT filter=filter_issuesVotedToUnhold)
     # excluding issues recently bumped from CLR back to integration
 
     # Get the list of issues.
     ${basereq} --action getIssueList \
-               --jql "((filter='${filter_candidatesForIntegration}') \
-                     OR (filter='${filter_candidatesForCLR}')) \
+               --jql "filter='${filter_candidatesForMerge}' \
                      AND type IN ('New Feature', Improvement) \
-                     AND NOT filter = '${filter_issuesVotedToUnhold}' \
-                     AND NOT (status changed FROM 'Waiting for component lead review' TO 'Waiting for integration review' AFTER -2h)" \
+                     AND NOT filter = '${filter_issuesVotedToUnhold}'" \
                --file "${resultfile}"
 
     # Iterate over found issues and perform the actions with them.
@@ -64,7 +62,7 @@ If you want Moodle HQ to consider including it into the incoming major release p
 function run_A2() {
     # Get the list of issues.
     ${basereq} --action getIssueList \
-               --jql "filter='${filter_candidatesForIntegration}'
+               --jql "filter='${filter_candidatesForMerge}'
                      AND NOT filter = '${filter_issuesHeldUntilAfterRelease}'
                      AND (
                        filter = '${filter_mustFixIssues}' OR
@@ -125,7 +123,7 @@ function run_A3a() {
     ${basereq} --action getIssueList \
                --jql "project = MDL \
                      AND 'Currently in integration' IS NOT EMPTY \
-                     AND status IN ('Waiting for integration review')" \
+                     AND status IN ('Waiting for Merge Review')" \
                --file "${resultfile}"
 
     # Iterate over found issues just to count them.
@@ -139,7 +137,7 @@ function run_A3a() {
     if [[ "$counter" -lt "$currentmin" ]]; then
         # Get an ordered list of issues in the candidate queue.
         ${basereq} --action getIssueList \
-                   --jql "filter='${filter_candidatesForIntegration}' \
+                   --jql "filter='${filter_candidatesForMerge}' \
                        ORDER BY Rank ASC" \
                    --file "${resultfile}"
 
@@ -202,8 +200,7 @@ function run_A3b() {
     # - Must-fix issues
     # - mdlqa issues
     ${basereq} --action getIssueList \
-               --jql "filter='${filter_candidatesForIntegration}' OR (
-                      filter='${filter_candidatesForCLR}' AND NOT (
+               --jql "filter='${filter_candidatesForMerge}' AND NOT (
                         filter = '${filter_mustFixIssues}' OR
                         labels IN (mdlqa)
                       )
@@ -236,7 +233,7 @@ function run_B1b() {
     ${basereq} --action getIssueList \
                --jql "project = MDL \
                      AND 'Currently in integration' IS NOT EMPTY \
-                     AND status IN ('Waiting for integration review')" \
+                     AND status IN ('Waiting for Merge Review')" \
                --file "${resultfile}"
 
     # Iterate over found issues just to count them.
@@ -250,7 +247,7 @@ function run_B1b() {
     if [[ "$counter" -lt "$currentmin" ]]; then
         # Get an ordered list of issues in the candidate queue.
         ${basereq} --action getIssueList \
-                   --jql "filter='${filter_candidatesForIntegration}' \
+                   --jql "filter='${filter_candidatesForMerge}' \
                        ORDER BY Rank ASC" \
                    --file "${resultfile}"
 
@@ -311,12 +308,12 @@ function run_B1a() {
     # Note this could be done by one unique "runFromIssueList" action, but we are splitting
     # the search and the update in order to log all the closed issues within jenkins ($logfile)
 
-    # Basically get all the issues in the candidates queues (filter=14000 OR filter=23329), that are not bug
-    # and that haven't received any comment with the standard unholding text (NOT filter = 22054)
+    # Basically get all the issues in the candidates queues (filter=filter_candidatesForMerge), that are not bug
+    # and that haven't received any comment with the standard unholding text (NOT filter=filter_issuesVotedToUnhold)
 
     # Get the list of issues.
     ${basereq} --action getIssueList \
-               --jql "(filter='${filter_candidatesForIntegration}' OR filter='${filter_candidatesForCLR}') \
+               --jql "filter='${filter_candidatesForMerge}' \
                      AND type IN ('New Feature', Improvement) \
                      AND NOT filter = '${filter_issuesVotedToUnhold}'" \
                --file "${resultfile}"
@@ -384,7 +381,7 @@ function run_C() {
     ${basereq} --action getIssueList \
                --jql "project = MDL \
                      AND 'Currently in integration' IS NOT EMPTY \
-                     AND status IN ('Waiting for integration review') \
+                     AND status IN ('Waiting for Merge Review') \
                      AND labels in (security_held, integration_held)" \
                --file "${resultfile}"
     # Let's iterate over found issues.

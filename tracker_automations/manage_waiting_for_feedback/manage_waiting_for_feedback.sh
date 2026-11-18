@@ -85,7 +85,7 @@ hoursafterremind=$((hourstoreopen-hourstoremind))
 #    - And, once done, set the "Waiting for Feedback Notifications" field to 2.
 ${basereq} --action getIssueList \
            --jql "project = 'Moodle' \
-                 AND status IN ('Waiting for feedback', 'Waiting for feedback (CLR)') \
+                 AND status IN ('Waiting for Feedback (Merge Review)') \
                  AND 'Waiting for Feedback Notifications' = 1" \
            --file "${resultfile}"
 
@@ -124,7 +124,7 @@ done
 #      - Since the reminder (hoursafterremind) if they were reminded. (aka, 2 days, for example).
 ${basereq} --action getIssueList \
            --jql "project = 'Moodle' \
-                 AND status IN ('Waiting for feedback', 'Waiting for feedback (CLR)') \
+                 AND status IN ('Waiting for Feedback (Merge Review)') \
                  AND ( \
                      (NOT status CHANGED AFTER -${hourstoreopen}h  AND 'Waiting for Feedback Notifications' = 2) \
                    OR \
@@ -156,7 +156,7 @@ done
 if [[ ${hourstoremind} -gt 0 ]]; then
     ${basereq} --action getIssueList \
                --jql "project = 'Moodle' \
-                     AND status IN ('Waiting for feedback', 'Waiting for feedback (CLR)') \
+                     AND status IN ('Waiting for feedback (Merge Review)') \
                      AND NOT status CHANGED AFTER -${hourstoremind}h \
                      AND 'Waiting for Feedback Notifications' = 2" \
                --file "${resultfile}"

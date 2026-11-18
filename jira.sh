@@ -18,10 +18,12 @@ customfield_tester="Tester"
 
 filter_candidatesForCLR="Weekly: Candidates for CLR (not held)"
 filter_candidatesForIntegration="Weekly: Candidates for Integration (not held)"
+filter_candidatesForMerge="Weekly: Candidates for Merge Review (not held)"
 filter_integrationCLRDecision="Weekly: Issues to decide between IR/CLR"
 filter_issuesHeldUntilAfterRelease="Issues agreed to be after release"
 filter_issuesVotedToUnhold="Issues that have been voted for unhold"
-filter_issuesWaitingForReviewOrInProgress="Integration: Current queue for issues waiting for review or review in progress"
+# filter_issuesWaitingForReviewOrInProgress="Integration: Current queue for issues waiting for review or review in progress"
+filter_issuesWaitingForReviewOrInProgress="Integration: Current queue for issues waiting for merge review or review in progress"
 filter_mustFixIssues="All \"must-fix\" issues"
 
 # Verify everything is set

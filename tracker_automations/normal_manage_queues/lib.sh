@@ -23,7 +23,7 @@ source "${mydir}/../../jira.sh"
 function run_A() {
     # Get the list of issues.
     ${basereq} --action getIssueList \
-               --jql "filter='${filter_candidatesForIntegration}'
+               --jql "filter='${filter_candidatesForMerge}'
                      AND NOT filter = '${filter_issuesHeldUntilAfterRelease}'
                      AND (
                        filter = '${filter_mustFixIssues}' OR
@@ -85,7 +85,7 @@ function run_B() {
     ${basereq} --action getIssueList \
                --jql "project = MDL \
                      AND 'Currently in integration' IS NOT EMPTY \
-                     AND status IN ('Waiting for integration review')" \
+                     AND status IN ('Waiting for Merge Review')" \
                --file "${resultfile}"
 
     # Iterate over found issues just to count them.
@@ -99,7 +99,7 @@ function run_B() {
     if [[ "$counter" -lt "$currentmin" ]]; then
         # Get an ordered list of up to issues in the candidate queue.
         ${basereq} --action getIssueList \
-                   --jql "filter='${filter_candidatesForIntegration}' \
+                   --jql "filter='${filter_candidatesForMerge}' \
                        ORDER BY Rank ASC" \
                    --file "${resultfile}"
 
@@ -158,7 +158,7 @@ function run_B() {
 function run_C() {
     # Get the list of issues.
     ${basereq} --action getIssueList \
-               --jql "filter='${filter_candidatesForIntegration}'
+               --jql "filter='${filter_candidatesForMerge}'
                      AND 'Integration priority' = 0
                      AND NOT (issueLinkType = 'blocks' OR issueLinkType = 'is blocked by')
                      AND NOT status CHANGED AFTER -${waitingdays}d" \
